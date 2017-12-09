@@ -5,7 +5,7 @@ Miscellaneous() {
     yad --title "Install" --skip-taskbar --center --width=600 --text "Fix Various Configurations" \
         --button="Add BlueStar repo":"xterm -e sudo cp /usr/share/pacman.conf /etc/" \
         --button="Back":1
-        
+}
 install() {
     yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following" \
         --button="Install xfce4-goodies":"xterm -e sudo pacman -S xfce4-goodies --noconfirm" \
@@ -24,7 +24,6 @@ while :; do
     action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
         --text="Arch Linux Made Easy" --text-align=center \
         --button="Install":2 \
-#        --button="Remove":3 \
         --button="Miscellaneous":4 \
         --button="Close":1)
 
@@ -33,7 +32,6 @@ while :; do
     case $ret in
         1) exit 0 ;;
         2) install ;;
-#        3) remove ;;
         4) miscellaneous ;;
     esac
 done
