@@ -1,0 +1,39 @@
+#!/bin/bash
+# -*- coding: utf-8 -*-
+#
+Miscellaneous() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Fix Various Configurations" \
+        --button="Add BlueStar repo":"xterm -e sudo cp /usr/share/reborn-updates/pacman.conf /etc/" \
+        --button="Back":1
+        
+install() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following" \
+        --button="Install xfce4-goodies":"xterm -e sudo pacman -S xfce4-goodies --noconfirm" \
+        --button="Install Camera and Device Support":"xterm -e sudo pacman -S gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb --noconfirm" \
+        --button="Back":1
+}
+remove() {
+    yad --title "Remove" --skip-taskbar --center --width=600 --text "Uninstall the Following:" \
+        --button="Remove linux":"xterm -e sudo pacman -Rs linux linux-headers --noconfirm" \
+        --button="Remove linux lts":"xterm -e sudo pacman -Rs linux-lts linux-lts-headers --noconfirm" \
+        --button="Remove linux zen":"xterm -e sudo pacman -Rs linux-zen linux-zen-headers --noconfirm" \
+        --button="Remove linux hardened":"xterm -e sudo pacman -Rs linux-hardened linux-hardened-headers --noconfirm" \
+        --button="Back":1
+}
+while :; do
+    action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
+        --text="Arch Linux Made Easy" --text-align=center \
+        --button="Install":2 \
+#        --button="Remove":3 \
+        --button="Miscellaneous":4 \
+        --button="Close":1)
+
+    ret=$?
+
+    case $ret in
+        1) exit 0 ;;
+        2) install ;;
+#        3) remove ;;
+        4) miscellaneous ;;
+    esac
+done
