@@ -1,13 +1,14 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 #
-Miscellaneous() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Fix Various Configurations" \
-        --button="Add BlueStar repo":"xterm -e sudo cp /usr/share/pacman.conf /etc/" \
+miscellaneous() {
+    yad --title "Various Improvements" --height=70 --center --text "Fix Various Configurations:" \
+        --button="Add BlueStar repo":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
         --button="Back":1
 }
+        
 install() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following" \
+    yad --title "Install" --height=70 --center --text "Install the Following:" \
         --button="Install xfce4-goodies":"xterm -e sudo pacman -S xfce4-goodies --noconfirm" \
         --button="Install Camera and Device Support":"xterm -e sudo pacman -S gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb --noconfirm" \
         --button="Back":1
@@ -24,7 +25,7 @@ while :; do
     action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
         --text="Arch Linux Made Easy" --text-align=center \
         --button="Install":2 \
-        --button="Miscellaneous":4 \
+        --button="Miscellaneous":3 \
         --button="Close":1)
 
     ret=$?
@@ -32,6 +33,6 @@ while :; do
     case $ret in
         1) exit 0 ;;
         2) install ;;
-        4) miscellaneous ;;
+        3) miscellaneous ;;
     esac
 done
