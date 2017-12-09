@@ -18,7 +18,7 @@ package() {
     	 "${pkgdir}/usr/bin/reborn-updates"
 
     install -D -m 755 reborn-updates.desktop \
-    	 "${pkgdir}/usr/share/applications/antergos-kernel-manager.desktop"
+    	 "${pkgdir}/usr/share/applications/reborn-updates.desktop"
 
     install -D -m 644 .svg \
     	 "${pkgdir}/usr/share/icons/default/reborn-updates.svg"
