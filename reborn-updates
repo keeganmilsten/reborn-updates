@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 miscellaneous() {
-    yad --title "Various Improvements" --height=70 --center --text "Fix Various Configurations:" \
+    yad --title "Various Improvements" --height=90 --center --text "Add Various Configurations" --text-align=center \
         --button="Make Sure BlueStar Repo Is Added":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
         --button="Install Skype":"xterm -e sudo pacman -S skype skype-call-recorder skypeforlinux-bin --noconfirm" \
         --button="Install Spotify":"xterm -e sudo pacman -S spotify spotify-adkiller blockify --noconfirm" \
@@ -10,22 +10,23 @@ miscellaneous() {
 }
         
 install() {
-    yad --title "Install" --height=70 --center --text "Install the Following, based on your Desktop Environment:" \
+    while :; do
+    yad --title "Install" --height=80 --center --text "Install the Following, based on your Desktop Environment"  --text-align=center \
         --button="Install Budgie Updates":2 \
         --button="Install Cinnamon Updates":3 \
         --button="Install KDE Updates":4 \
         --button="Install Openbox Updates":5 \
         --button="Back":1
-        ret=$?
+    ret=$?
 
-        case $ret in
-            1) return ;;
-            2) budgie ;;
-            3) cinnamon ;;
-            4) kde ;;
-            5) openbox ;;
-        esac
-    done
+    case $ret in
+        1) return ;;
+        2) budgie ;;
+        3) cinnamon ;;
+        4) kde ;;
+        5) openbox ;;
+    esac
+done
 }
 
 budgie() {
@@ -55,14 +56,6 @@ openbox() {
         --button="Install Openbox-Cosmic":"xterm -e sudo pacman -S openbox-cosmic-reborn --noconfirm" \
         --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
         --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
-        --button="Back":1
-}
-remove() {
-    yad --title "Remove" --skip-taskbar --center --width=600 --text "Uninstall the Following:" \
-        --button="Remove linux":"xterm -e sudo pacman -Rs linux linux-headers --noconfirm" \
-        --button="Remove linux lts":"xterm -e sudo pacman -Rs linux-lts linux-lts-headers --noconfirm" \
-        --button="Remove linux zen":"xterm -e sudo pacman -Rs linux-zen linux-zen-headers --noconfirm" \
-        --button="Remove linux hardened":"xterm -e sudo pacman -Rs linux-hardened linux-hardened-headers --noconfirm" \
         --button="Back":1
 }
 while :; do
