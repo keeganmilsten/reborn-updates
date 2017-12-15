@@ -3,14 +3,58 @@
 #
 miscellaneous() {
     yad --title "Various Improvements" --height=70 --center --text "Fix Various Configurations:" \
-        --button="Add BlueStar repo":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
+        --button="Make Sure BlueStar Repo Is Added":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
+        --button="Install Skype":"xterm -e sudo pacman -S skype skype-call-recorder skypeforlinux-bin --noconfirm" \
+        --button="Install Spotify":"xterm -e sudo pacman -S spotify spotify-adkiller blockify --noconfirm" \
         --button="Back":1
 }
         
 install() {
-    yad --title "Install" --height=70 --center --text "Install the Following:" \
-        --button="Install xfce4-goodies":"xterm -e sudo pacman -S xfce4-goodies --noconfirm" \
-        --button="Install Camera and Device Support":"xterm -e sudo pacman -S gvfs gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb --noconfirm" \
+    yad --title "Install" --height=70 --center --text "Install the Following, based on your Desktop Environment:" \
+        --button="Install Budgie Updates":2 \
+        --button="Install Cinnamon Updates":3 \
+        --button="Install KDE Updates":4 \
+        --button="Install Openbox Updates":5 \
+        --button="Back":1
+        ret=$?
+
+        case $ret in
+            1) return ;;
+            2) budgie ;;
+            3) cinnamon ;;
+            4) kde ;;
+            5) openbox ;;
+        esac
+    done
+}
+
+budgie() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
+        --button="Install Budgie-Cosmic":"xterm -e sudo pacman -S budgie-cosmic-reborn --noconfirm" \
+        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
+        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+        --button="Back":1
+}
+
+cinnamon() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
+        --button="Install Cinnamon-Cosmic":"xterm -e sudo pacman -S cinnamon-cosmic-reborn --noconfirm" \
+        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
+        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+        --button="Back":1
+}
+
+kde() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
+        --button="Install KDE-Cosmic":"xterm -e sudo pacman -S kde-cosmic-reborn --noconfirm" \
+        --button="Back":1
+}
+
+openbox() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
+        --button="Install Openbox-Cosmic":"xterm -e sudo pacman -S openbox-cosmic-reborn --noconfirm" \
+        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
+        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
         --button="Back":1
 }
 remove() {
