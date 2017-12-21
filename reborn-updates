@@ -3,57 +3,68 @@
 #
 miscellaneous() {
     yad --title "Various Improvements" --height=90 --center --text "Add Various Configurations" --text-align=center \
-        --button="Make Sure BlueStar Repo Is Added":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
-        --button="Install Skype":"xterm -e sudo pacman -S skype skype-call-recorder skypeforlinux-bin --noconfirm" \
-        --button="Install Spotify":"xterm -e sudo pacman -S spotify spotify-adkiller blockify --noconfirm" \
+        --button="Enhance Package Security":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
+        --button="Install Dropbox":"xterm -e sudo pacman -S dropbox --noconfirm" \
+        --button="Install VLC":"xterm -e sudo pacman -S vlc --noconfirm" \
+        --button="Install Firewire Support":"xterm -e sudo pacman -S dvgrab libffado libraw1394 --noconfirm" \
         --button="Back":1
 }
         
 install() {
     while :; do
     yad --title "Install" --height=80 --center --text "Install the Following, based on your Desktop Environment"  --text-align=center \
-        --button="Install Budgie Updates":2 \
-        --button="Install Cinnamon Updates":3 \
-        --button="Install KDE Updates":4 \
-        --button="Install Openbox Updates":5 \
+        --button="Install XFCE Updates":2 \
+        --button="Install Mate Updates":3 \
+        --button="Install LXQT Updates":4 \
+        --button="Install Enlightenment Updates":5 \
+        --button="Install i3 Updates":6 \
         --button="Back":1
     ret=$?
 
     case $ret in
         1) return ;;
-        2) budgie ;;
-        3) cinnamon ;;
-        4) kde ;;
-        5) openbox ;;
+        2) xfce ;;
+        3) mate ;;
+        4) lxqt ;;
+        5) enlightenment ;;
+        6) i3 ;;
     esac
 done
 }
 
-budgie() {
+xfce() {
     yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install Budgie-Cosmic":"xterm -e sudo pacman -S budgie-cosmic-reborn --noconfirm" \
+        --button="Install XFCE-Cosmic":"xterm -e sudo pacman -S xfce-cosmic-reborn --noconfirm" \
         --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
         --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
         --button="Back":1
 }
 
-cinnamon() {
+mate() {
     yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install Cinnamon-Cosmic":"xterm -e sudo pacman -S cinnamon-cosmic-reborn --noconfirm" \
+        --button="Install Mate-Cosmic":"xterm -e sudo pacman -S mate-cosmic-reborn --noconfirm" \
         --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
         --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
         --button="Back":1
 }
 
-kde() {
+lxqt() {
     yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install KDE-Cosmic":"xterm -e sudo pacman -S kde-cosmic-reborn --noconfirm" \
+        --button="Install LXQT-Cosmic":"xterm -e sudo pacman -S lxqt-cosmic-reborn --noconfirm" \
         --button="Back":1
 }
 
-openbox() {
+enlightenment() {
     yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install Openbox-Cosmic":"xterm -e sudo pacman -S openbox-cosmic-reborn --noconfirm" \
+        --button="Install Enlightenment-Cosmic":"xterm -e sudo pacman -S enlightenment-cosmic-reborn --noconfirm" \
+        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
+        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+        --button="Back":1
+}
+
+i3() {
+    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
+        --button="Install i3-Cosmic":"xterm -e sudo pacman -S i3-cosmic-reborn --noconfirm" \
         --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
         --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
         --button="Back":1
