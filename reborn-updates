@@ -5,6 +5,7 @@ miscellaneous() {
     yad --title "Various Improvements" --height=90 --center --text "Add Various Configurations" --text-align=center \
         --button="Install Maintenance Tools":"xterm -e sudo pacman -S bleachbit timeshift crashplan --noconfirm" \
         --button="Install Variety":"xterm -e sudo pacman -S variety --noconfirm" \
+        --button="Update pacman.conf":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
         --button="Back":1
 }
         
