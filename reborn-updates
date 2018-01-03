@@ -3,20 +3,20 @@
 #
 miscellaneous() {
     yad --title "Various Improvements" --height=90 --center --text "Add Various Configurations" --text-align=center \
-        --button="Install Maintenance Tools":"xterm -e sudo pacman -S bleachbit timeshift crashplan --noconfirm" \
-        --button="Install Variety":"xterm -e sudo pacman -S variety --noconfirm" \
-        --button="Update pacman.conf":"xterm -e sudo mv /usr/share/pacman.conf /etc/" \
+        --button="Remove Numix Themes":"xterm -e sudo pacman -Rdd numix-icon-theme-circle --noconfirm" \
         --button="Back":1
 }
         
 install() {
     while :; do
-    yad --title "Install" --height=80 --center --text "Install the Following, based on your Desktop Environment"  --text-align=center \
-        --button="Install XFCE Updates":2 \
-        --button="Install Mate Updates":3 \
-        --button="Install LXQT Updates":4 \
-        --button="Install Enlightenment Updates":5 \
-        --button="Install i3 Updates":6 \
+    yad --title "Install" --height=80 --center --text "Select Your Current Desktop Environment"  --text-align=center \
+        --button="XFCE":2 \
+        --button="Mate":3 \
+        --button="LXQT":4 \
+        --button="Enlightenment":5 \
+        --button="i3":6 \
+        --button="Budgie":7 \
+        --button="Cinnamon":8 \
         --button="Back":1
     ret=$?
 
@@ -27,50 +27,57 @@ install() {
         4) lxqt ;;
         5) enlightenment ;;
         6) i3 ;;
+        7) budgie ;;
+        8) cinnamon ;;
     esac
 done
 }
 
 xfce() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install XFCE-Cosmic":"xterm -e sudo pacman -S xfce-cosmic-reborn --noconfirm" \
-        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
-        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
         --button="Back":1
 }
 
 mate() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install Mate-Cosmic":"xterm -e sudo pacman -S mate-cosmic-reborn --noconfirm" \
-        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
-        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
         --button="Back":1
 }
 
 lxqt() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install LXQT-Cosmic":"xterm -e sudo pacman -S lxqt-cosmic-reborn --noconfirm" \
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
         --button="Back":1
 }
 
 enlightenment() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install Enlightenment-Cosmic":"xterm -e sudo pacman -S enlightenment-cosmic-reborn --noconfirm" \
-        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
-        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
         --button="Back":1
 }
 
 i3() {
-    yad --title "Install" --skip-taskbar --center --width=600 --text "Install the Following:" \
-        --button="Install i3-Cosmic":"xterm -e sudo pacman -S i3-cosmic-reborn --noconfirm" \
-        --button="Install New Login Theme":"xterm -e sudo pacman -S lightdm-webkit-theme-aether --noconfirm" \
-        --button="Configure Login Theme":"xterm -e sudo mv /usr/share/lightdm-webkit2-greeter.conf /etc/lightdm/" \
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
+        --button="Back":1
+}
+
+budgie() {
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
+        --button="Back":1
+}
+
+cinnamon() {
+    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
+        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
         --button="Back":1
 }
 while :; do
     action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
         --text="Arch Linux Made Easy" --text-align=center \
+        --button="Install":2 \
         --button="Miscellaneous":3 \
         --button="Close":1)
 
@@ -78,6 +85,7 @@ while :; do
 
     case $ret in
         1) exit 0 ;;
+        2) install ;;
         3) miscellaneous ;;
     esac
 done
