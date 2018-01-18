@@ -76,9 +76,8 @@ cinnamon() {
 }
 while :; do
     action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
-        --text="Arch Linux Made Easy" --text-align=center \
-        --button="Install":2 \
-        --button="Miscellaneous":3 \
+        --text="Made For You - Made By You" --text-align=center \
+        --button="Miscellaneous":2 \
         --button="Close":1)
 
     ret=$?
