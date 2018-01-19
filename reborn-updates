@@ -77,13 +77,11 @@ cinnamon() {
 while :; do
     action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
         --text="Made For You - Made By You" --text-align=center \
-        --button="Miscellaneous":2 \
-        --button="Close":1)
+        --button="Your System Is Already Up-To-Date":1)
 
     ret=$?
 
     case $ret in
         1) exit 0 ;;
-        2) miscellaneous ;;
     esac
 done
