@@ -3,7 +3,8 @@
 #
 miscellaneous() {
     yad --title "Various Improvements" --height=90 --center --text "Add Various Configurations" --text-align=center \
-        --button="Remove Numix Themes":"xterm -e sudo pacman -Rdd numix-icon-theme-circle --noconfirm" \
+        --button="Add Flatpak Support":flatpak.sh \
+        --button="Update Pacman.conf":"gksudo mv /usr/share/pacman.conf /etc/" \
         --button="Back":1
 }
         
@@ -77,11 +78,13 @@ cinnamon() {
 while :; do
     action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
         --text="Made For You - Made By You" --text-align=center \
-        --button="Your System Is Already Up-To-Date":1)
+        --button="Miscellaneous":2 \
+        --button="Close":1)
 
     ret=$?
 
     case $ret in
+        2) miscellaneous ;;
         1) exit 0 ;;
     esac
 done
