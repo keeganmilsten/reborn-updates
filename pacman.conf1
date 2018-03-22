@@ -90,13 +90,17 @@ Include = /etc/pacman.d/mirrorlist
 [Reborn-OS]
 SigLevel = Required DatabaseOptional
 Server = https://github.com/keeganmilsten/Reborn-Packages/releases/download/1.0/
+Server = https://repo.itmettke.de/Reborn-OS/
 
 [antergos]
 SigLevel = PackageRequired
 Include = /etc/pacman.d/antergos-mirrorlist
 
-[aur-archlinux] 
-Server = https://repo.itmettke.de/aur/$repo/$arch
+[bluestar]
+SigLevel = Optional TrustAll
+Server = https://downloads.sourceforge.net/project/bluestarlinux/repo/$arch
+Server = https://bluestarlinux.sourceforge.net/downloads/repo/$arch 
+Server = https://bluestarlinux.net/downloads/repo/$arch
 
 
 # An example of a custom package repository.  See the pacman manpage for
