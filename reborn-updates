@@ -92,8 +92,8 @@ yad --plug=23456 --tabnum=1 --form --columns=2 --center --text-align=center \
 yad --plug=23456 --tabnum=2 --form --center --text-align=center \
 --text="Please consider adding the following to your system:" \
 --field="Mettke's Repo!!""Replace BlueStars Repo with Mettkes Repo, offering more packages as well as faster mirror speeds:fbtn" 'xterm -e "Replace"' \
---field="Reborn's European Mirror!!""Add Reborn's new European mirror to your mirrorlist, offering quicker and more reliable download speeds for those in Europe:fbtn" 'xterm -e "Adding"' \
---field="Add Nothing New, Only Upgrade Reborn's Security!!""The Reborn Repository now has updated security features available for you. To continue using Reborn OS safely, please upgrade them now. Thanks!:fbtn" 'xterm -e "Secure"' &
+--field="Reborn's European Mirror (Recommended)!!""Add Reborn's new European mirror to your mirrorlist, offering quicker and more reliable download speeds for those in Europe:fbtn" 'xterm -e "Adding"' \
+--field="Add Nothing New, Only Upgrade Reborn's Security (Not Recommended)!!""The Reborn Repository now has updated security features available for you. To continue using Reborn OS safely, please upgrade them now. Thanks!:fbtn" 'xterm -e "Secure"' &
 
 yad --plug=23456 --tabnum=3 --form --title="System Maintenance" --center --text-align=center --columns=2 \
 --text="A few simple commands to keep Reborn working flawlessly and your system clean" \
