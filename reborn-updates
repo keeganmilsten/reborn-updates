@@ -16,7 +16,7 @@ sudo pacman -U rebornos-keyring-20180302-1-any.pkg.tar.xz --noconfirm
 echo "Recieved Reborn's keys"
 echo
 echo "Writing changes to pacman.conf..."
-mv /tmp/pacman.conf1 /etc/pacman.conf
+sudo mv /tmp/pacman.conf1 /etc/pacman.conf
 sudo pacman -Syy
 echo "DONE"
 sudo rm rebornos-keyring-20180302-1-any.pkg.tar.xz && rm rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
@@ -35,7 +35,7 @@ sudo pacman -U rebornos-keyring-20180302-1-any.pkg.tar.xz --noconfirm
 echo "Recieved Reborn's keys"
 echo
 echo "Writing changes to pacman.conf..."
-mv /tmp/pacman.conf2 /etc/pacman.conf
+sudo mv /tmp/pacman.conf2 /etc/pacman.conf
 sudo pacman -Syy
 echo "DONE"
 sudo rm rebornos-keyring-20180302-1-any.pkg.tar.xz && rm rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
@@ -49,7 +49,7 @@ sudo pacman -U rebornos-keyring-20180302-1-any.pkg.tar.xz --noconfirm
 echo "Recieved Reborn's keys"
 echo
 echo "Writing changes to pacman.conf..."
-mv /tmp/pacman.conf3 /etc/pacman.conf
+sudo mv /tmp/pacman.conf3 /etc/pacman.conf
 sudo pacman -Syy
 sudo rm rebornos-keyring-20180302-1-any.pkg.tar.xz && rm rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
 echo "DONE"
