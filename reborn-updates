@@ -1,90 +1,108 @@
-#!/bin/bash
-# -*- coding: utf-8 -*-
-#
-miscellaneous() {
-    yad --title "Various Improvements" --height=90 --center --text "Add Various Configurations" --text-align=center \
-        --button="Add Flatpak Support":flatpak.sh \
-        --button="Update Pacman.conf":"gksudo mv /usr/share/pacman.conf /etc/" \
-        --button="Back":1
-}
-        
-install() {
-    while :; do
-    yad --title "Install" --height=80 --center --text "Select Your Current Desktop Environment"  --text-align=center \
-        --button="XFCE":2 \
-        --button="Mate":3 \
-        --button="LXQT":4 \
-        --button="Enlightenment":5 \
-        --button="i3":6 \
-        --button="Budgie":7 \
-        --button="Cinnamon":8 \
-        --button="Back":1
-    ret=$?
+#!/bin/sh
 
-    case $ret in
-        1) return ;;
-        2) xfce ;;
-        3) mate ;;
-        4) lxqt ;;
-        5) enlightenment ;;
-        6) i3 ;;
-        7) budgie ;;
-        8) cinnamon ;;
-    esac
-done
+official=`pacman -Qqtd | grep -Fv -f <(pacman -Qqtdm)`
+unofficial=`pacman -Qqmtd`
+
+Replace(){
+echo "Fetching Mettke's keys..."
+sudo pacman-key --recv 7448C890582975CD
+sudo pacman-key --lsign 7448C890582975CD
+echo "Recieved Mettke's keys"
+echo
+echo "Writing changes to pacman.conf..."
+mv /tmp/pacman.conf1 /etc/pacman.conf
+sudo pacman -Syy
+echo "DONE"
 }
 
-xfce() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Adding(){
+echo "Fetching Mettke's keys..."
+sudo pacman-key --recv 7448C890582975CD
+sudo pacman-key --lsign 7448C890582975CD
+echo "Recieved Mettke's keys"
+echo
+echo "Fetching Reborn's keys..."
+wget https://repo.itmettke.de/Reborn-OS/rebornos-keyring-20180302-1-any.pkg.tar.xz
+wget https://repo.itmettke.de/Reborn-OS/rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
+sudo pacman -U rebornos-keyring-20180302-1-any.pkg.tar.xz --noconfirm
+echo "Recieved Reborn's keys"
+echo
+echo "Writing changes to pacman.conf..."
+mv /tmp/pacman.conf2 /etc/pacman.conf
+sudo pacman -Syy
+echo "DONE"
+sudo rm rebornos-keyring-20180302-1-any.pkg.tar.xz && rm rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
 }
 
-mate() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Secure(){
+echo "Fetching Reborn's keys..."
+wget https://repo.itmettke.de/Reborn-OS/rebornos-keyring-20180302-1-any.pkg.tar.xz
+wget https://repo.itmettke.de/Reborn-OS/rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
+sudo pacman -U rebornos-keyring-20180302-1-any.pkg.tar.xz --noconfirm
+echo "Recieved Reborn's keys"
+echo
+echo "Writing changes to pacman.conf..."
+mv /tmp/pacman.conf3 /etc/pacman.conf
+sudo pacman -Syy
+sudo rm rebornos-keyring-20180302-1-any.pkg.tar.xz && rm rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
+echo "DONE"
 }
 
-lxqt() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Unnecessary(){
+pacman -Qqtd > /tmp/package-files.txt
+yad --title "Unnecessary Packages" --skip-taskbar --form --center --text-align=center --width=300 --height=100 \
+--text="Remove clutter with ease" \
+--field="View Unnecessary Packages In Terminal:fbtn" "xterm -e nano /tmp/package-files.txt" \
+--field="Remove All Unnecessary Packages:fbtn" "xterm -e sudo pacman -Rs $(pacman -Qqdt) --noconfirm" \
+--button="Back":1
+rm /tmp/package-files.txt
 }
 
-enlightenment() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Update(){
+if [ -f /usr/bin/octopi ]; then
+octopi
+fi
+
+if [ -f /usr/bin/pamac-updater ]; then
+pamac-updater
+fi
 }
 
-i3() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Journal(){
+journalctl --vacuum-time=3d && sync
 }
 
-budgie() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Cache(){
+pacman -Scc --noconfirm
 }
 
-cinnamon() {
-    yad --title "Install" --skip-taskbar --center --width=320 --text "Install the Following:" \
-        --button="Install New Login Theme":"xterm -e reborn-sddm.sh" \
-        --button="Back":1
+Clean(){
+paccache -ruk0
 }
-while :; do
-    action=$(yad --title "Reborn Improvements" --height=100 --width=300 --center --buttons-layout=center \
-        --text="Made For You - Made By You" --text-align=center \
-        --button="Miscellaneous":2 \
-        --button="Close":1)
 
-    ret=$?
+export -f Replace Adding Secure Unnecessary Update Journal Cache Clean
 
-    case $ret in
-        2) miscellaneous ;;
-        1) exit 0 ;;
-    esac
-done
+yad --plug=23456 --tabnum=1 --form --columns=2 --center --text-align=center \
+--text="The following applications are available for install:" \
+--field='Wine!!'"Easily run several Windows programs on Linux - safely. Wine offers a simple, non-technical method of installing Windows software. Simply download the desired .exe file like you normally would for Windows, and then right click to run using Wine. It's as easy as that.:fbtn" "xterm -e sudo pacman wine winetricks playonlinux --noconfirm" \
+--field='NixNote2!!'"Nixnote, (formerly Nevernote) is an opensource client for Evernote, allowing you to track your digital life in a single, convenient place. NOTE: an Evernote account is required for cloud synchronization.:fbtn" "xterm -e sudo pacman -S nixnote2 --noconfirm" \
+--field='Reborn Recovery!!'"Reborn Recovery allows you to save a list of all your installed programs in a file so that you can reinstall them later.:fbtn" "xterm -e sudo pacman -S reborn-recovery --noconfirm" \
+--field='Hardinfo!!'"Simple application for hardware analysis and system benchmarking. Through this, you can easily view all of your system specs without having to revert to the commandline.:fbtn" "xterm -e sudo pacman -S hardinfo --noconfirm" &
+
+yad --plug=23456 --tabnum=2 --form --center --text-align=center \
+--text="Please consider adding the following to your system:" \
+--field="Mettke's Repo!!""Replace BlueStars Repo with Mettkes Repo, offering more packages as well as faster mirror speeds:fbtn" 'xterm -e "Replace"' \
+--field="Reborn's European Mirror!!""Add Reborn's new European mirror to your mirrorlist, offering quicker and more reliable download speeds for those in Europe:fbtn" 'xterm -e "Adding"' \
+--field="Add Nothing New, Only Upgrade Reborn's Security!!""The Reborn Repository now has updated security features available for you. To continue using Reborn OS safely, please upgrade them now. Thanks!:fbtn" 'xterm -e "Secure"' &
+
+yad --plug=23456 --tabnum=3 --form --title="System Maintenance" --center --text-align=center --columns=2 \
+--text="A few simple commands to keep Reborn working flawlessly and your system clean" \
+--field="Clear Cache:fbtn" 'gksudo "Cache"' \
+--field="Clean Journal:fbtn" 'gksudo "Journal"' \
+--field="Clean Built Packages:fbtn" 'gksudo "Clean"' \
+--field="Rank Mirrors:fbtn" "xterm -e sudo reflector --verbose --age 8 --fastest 128 --latest 64 --number 32 --sort rate --save /etc/pacman.d/mirrorlist" \
+--field="Unnecessary Packages:fbtn" '@bash -c "Unnecessary"' \
+--field="Update System:fbtn" '@bash -c "Update"' &
+
+yad --notebook --center --key=23456 --tab="New Applications" --tab="Repositories" --tab="Maintenance" --button=gtk-quit:1 \
+--title="Reborn Improvements" \
