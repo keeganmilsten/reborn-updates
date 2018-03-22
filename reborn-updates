@@ -9,10 +9,17 @@ sudo pacman-key --recv 7448C890582975CD
 sudo pacman-key --lsign 7448C890582975CD
 echo "Recieved Mettke's keys"
 echo
+echo "Fetching Reborn's keys..."
+wget https://repo.itmettke.de/Reborn-OS/rebornos-keyring-20180302-1-any.pkg.tar.xz
+wget https://repo.itmettke.de/Reborn-OS/rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
+sudo pacman -U rebornos-keyring-20180302-1-any.pkg.tar.xz --noconfirm
+echo "Recieved Reborn's keys"
+echo
 echo "Writing changes to pacman.conf..."
 mv /tmp/pacman.conf1 /etc/pacman.conf
 sudo pacman -Syy
 echo "DONE"
+sudo rm rebornos-keyring-20180302-1-any.pkg.tar.xz && rm rebornos-keyring-20180302-1-any.pkg.tar.xz.sig
 }
 
 Adding(){
@@ -91,8 +98,8 @@ yad --plug=23456 --tabnum=1 --form --columns=2 --center --text-align=center \
 
 yad --plug=23456 --tabnum=2 --form --center --text-align=center \
 --text="Please consider adding the following to your system:" \
---field="Mettke's Repo!!""Replace BlueStars Repo with Mettkes Repo, offering more packages as well as faster mirror speeds:fbtn" 'xterm -e "Replace"' \
---field="Reborn's European Mirror (Recommended)!!""Add Reborn's new European mirror to your mirrorlist, offering quicker and more reliable download speeds for those in Europe:fbtn" 'xterm -e "Adding"' \
+--field="Add Mettke's Repo and Reborn's European Mirror (Recommended for most)!!""Replace BlueStar's Repo with Mettkes Repo, offering more packages as well as faster mirror speeds. In addition, this adds Reborn's new European mirror to your mirrorlist, offering quicker and more reliable download speeds for those in Europe:fbtn" 'xterm -e "Replace"' \
+--field="Add Mettke's Repo and Replace Reborn's Mirrors (Recommended for Europeans)!!""Do the same as above, except that when adding the European mirror to Reborn, it replaces the current Github one, allowing Eropean users quicker and more reliable speads.:fbtn" 'xterm -e "Adding"' \
 --field="Add Nothing New, Only Upgrade Reborn's Security (Not Recommended)!!""The Reborn Repository now has updated security features available for you. To continue using Reborn OS safely, please upgrade them now. Thanks!:fbtn" 'xterm -e "Secure"' &
 
 yad --plug=23456 --tabnum=3 --form --title="System Maintenance" --center --text-align=center --columns=2 \
