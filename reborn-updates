@@ -1,8 +1,5 @@
 #!/bin/sh
 
-official=`pacman -Qqtd | grep -Fv -f <(pacman -Qqtdm)`
-unofficial=`pacman -Qqmtd`
-
 Replace(){
 echo "Fetching Mettke's keys..."
 sudo pacman-key --recv 7448C890582975CD
@@ -77,17 +74,102 @@ fi
 
 Journal(){
 journalctl --vacuum-time=3d && sync
+Notice
+
 }
 
 Cache(){
 pacman -Scc --noconfirm
+Notice
+
 }
 
 Clean(){
 paccache -ruk0
+Notice
+
 }
 
-export -f Replace Adding Secure Unnecessary Update Journal Cache Clean
+Notice()
+{
+yad --center --width=150 --height=30 --skip-taskbar --undecorated --no-buttons --form --timeout="1" --text-align=center --title="Reborn Maintenance" \
+--text="DONE!" \
+
+}
+
+Save()
+{
+SAVING=$(sed '1q;d' /tmp/saving.txt)
+echo "Saving Files To $SAVING"
+sudo pacman -Qqen > $SAVING/packages-repository.txt
+sudo pacman -Qqem > $SAVING/packages-AUR.txt
+echo "Done"
+}
+
+Recover()
+{
+SAVING=$(sed '1q;d' /tmp/saving.txt)
+echo "Recovering Files From $SAVING..."
+sudo pacman --needed -S - < $SAVING/packages-repository.txt --noconfirm
+cat $SAVING/packages-AUR.txt | xargs yaourt -S --needed --noconfirm
+echo "Done"
+}
+
+StartHere()
+{
+
+echo "Setting Directory..."
+yad --center --width=350 --height=100 --form --separator='' --title="Reborn Recovery" --save --field="Save To:":CDIR >> /tmp/saving.txt
+SAVING=$(sed '1q;d' /tmp/saving.txt)
+echo "Using $SAVING Directory"
+Next
+}
+
+Grub()
+{
+sudo os-prober
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+Downgrading()
+{
+
+echo "Setting Package..."
+yad --center --width=300 --height=30 --form --separator='' --title="Reborn Repair" --save --field="Package Name:" >> /tmp/packaging.txt
+SAVED=$(sed '1q;d' /tmp/packaging.txt)
+echo "Using $SAVED Package"
+After
+}
+
+After()
+{
+
+SAVED=$(sed '1q;d' /tmp/packaging.txt)
+
+yad --form --center --title "Reborn Repair" --width=400 \
+--field="Selected Package::RO" "$SAVED" \
+--field='Downgrade package:FBTN' "xterm -e downgrade $SAVED" \
+--button='gtk-quit:1'
+rm /tmp/packaging.txt
+
+}
+
+Next()
+{
+
+SAVING=$(sed '1q;d' /tmp/saving.txt)
+
+yad --form --center --title "Reborn Recovery" --width=400 \
+--field="Folder to Save Package Lists To::RO" "$SAVING" \
+--field='Create Package List:FBTN' '@bash -c "Save"' \
+--field='Recover Packages From List:FBTN' 'xterm -e "Recover"' \
+--button='gtk-quit:1'
+rm /tmp/saving.txt
+
+}
+
+export -f Replace Adding Secure Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After
+
 
 yad --plug=23456 --tabnum=1 --form --columns=2 --center --text-align=center \
 --text="The following applications are available for install:" \
@@ -104,12 +186,19 @@ yad --plug=23456 --tabnum=2 --form --center --text-align=center \
 
 yad --plug=23456 --tabnum=3 --form --title="System Maintenance" --center --text-align=center --columns=2 \
 --text="A few simple commands to keep Reborn working flawlessly and your system clean" \
---field="Clear Cache:fbtn" 'gksudo "Cache"' \
---field="Clean Journal:fbtn" 'gksudo "Journal"' \
---field="Clean Built Packages:fbtn" 'gksudo "Clean"' \
+--field="Clear Cache:fbtn" '@bash -c "Cache"' \
+--field="Clean Journal:fbtn" '@bash -c "Journal"' \
+--field="Clean Built Packages:fbtn" '@bash -c "Clean"' \
 --field="Rank Mirrors:fbtn" "xterm -e sudo reflector --verbose --age 8 --fastest 128 --latest 64 --number 32 --sort rate --save /etc/pacman.d/mirrorlist" \
 --field="Unnecessary Packages:fbtn" '@bash -c "Unnecessary"' \
 --field="Update System:fbtn" '@bash -c "Update"' &
 
-yad --notebook --center --key=23456 --tab="New Applications" --tab="Repositories" --tab="Maintenance" --button=gtk-quit:1 \
+yad --plug=23456 --tabnum=4 --form --title="System Repair" --center --text-align=center --columns=2 \
+--text="A few simple steps to prevent Reborn from disaster and nurse it back to health" \
+--field="Save / Recover Programs:fbtn" '@bash -c "StartHere"' \
+--field="Rebuild Grub:fbtn" 'xterm -e "Grub"' \
+--field="Reinstall Grub (EFI):fbtn" "xterm -e grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Reborn-Grub" \
+--field="Downgrade:fbtn" '@bash -c "Downgrading"' &
+
+yad --notebook --center --key=23456 --tab="New Applications" --tab="Repositories" --tab="Maintenance" --tab="Repair" --button=gtk-quit:1 \
 --title="Reborn Improvements" \
