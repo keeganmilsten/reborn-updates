@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Reborn Updates
-Comment=Update Reborn
+Name=Reborn Maintenance
+Comment=Update and maintain Reborn
 Icon=/usr/share/icons/default/reborn-updates.svg
 Exec=gksudo /usr/bin/reborn-updates
 NoDisplay=false
