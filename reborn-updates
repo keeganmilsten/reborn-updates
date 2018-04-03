@@ -168,7 +168,30 @@ rm /tmp/saving.txt
 
 }
 
-export -f Replace Adding Secure Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After
+Removing()
+{
+
+echo "Setting Package..."
+yad --center --width=300 --height=30 --form --separator='' --title="Reborn Repair" --save --field="Package to Remove:" >> /tmp/packaging2.txt
+SAVED=$(sed '1q;d' /tmp/packaging2.txt)
+echo "Will Remove $SAVED Package"
+Removed
+}
+
+Removed()
+{
+
+SAVED=$(sed '1q;d' /tmp/packaging2.txt)
+
+yad --form --center --title "Reborn Repair" --width=400 \
+--field="Selected Package::RO" "$SAVED" \
+--field='Remove Package:FBTN' "xterm -e sudo pacman -Rdd $SAVED --noconfirm" \
+--button='gtk-quit:1'
+rm /tmp/packaging2.txt
+
+}
+
+export -f Replace Adding Secure Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After Removing Removed
 
 
 yad --plug=23456 --tabnum=1 --form --columns=2 --center --text-align=center \
@@ -198,7 +221,9 @@ yad --plug=23456 --tabnum=4 --form --title="System Repair" --center --text-align
 --field="Save / Recover Programs:fbtn" '@bash -c "StartHere"' \
 --field="Rebuild Grub:fbtn" 'xterm -e "Grub"' \
 --field="Reinstall Grub (EFI):fbtn" "xterm -e grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Reborn-Grub" \
---field="Downgrade:fbtn" '@bash -c "Downgrading"' &
+--field="Downgrade:fbtn" '@bash -c "Downgrading"' \
+--field="Remove Package (Leaving Dependencies):fbtn" '@bash -c "Removing"' \
+--field="Ask Actual Humans on the Forum:fbtn" "@bash -c xdg-open https://rebornos.freeforums.net" &
 
 yad --notebook --center --key=23456 --tab="New Applications" --tab="Repositories" --tab="Maintenance" --tab="Repair" --button=gtk-quit:1 \
 --title="Reborn Improvements" \
