@@ -45,6 +45,15 @@ Notice
 
 }
 
+Super(){
+paccache -ruk0
+paccache -r --keep 1
+pacman -Scc --noconfirm
+journalctl --vacuum-time=1d && sync
+Notice
+
+}
+
 Notice()
 {
 yad --center --width=150 --height=30 --skip-taskbar --undecorated --no-buttons --form --timeout="1" --text-align=center --title="Reborn Maintenance" \
@@ -148,7 +157,7 @@ rm /tmp/packaging2.txt
 
 }
 
-export -f Adding Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After Removing Removed
+export -f Adding Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After Removing Removed Super
 
 
 yad --plug=23456 --tabnum=1 --form --center --text-align=center \
@@ -167,7 +176,7 @@ yad --plug=23456 --tabnum=3 --form --title="System Maintenance" --center --text-
 --field="Clean Built Packages:fbtn" '@bash -c "Clean"' \
 --field="Rank Mirrors:fbtn" "xterm -e sudo reflector --verbose --age 8 --fastest 128 --latest 64 --number 32 --sort rate --save /etc/pacman.d/mirrorlist" \
 --field="Unnecessary Packages:fbtn" '@bash -c "Unnecessary"' \
---field="Update System:fbtn" '@bash -c "Update"' &
+--field="SUPER CLEAN:fbtn" '@bash -c "Super"'  &
 
 yad --plug=23456 --tabnum=4 --form --title="System Repair" --center --text-align=center --columns=2 \
 --text="A few simple steps to prevent Reborn from disaster and nurse it back to health" \
