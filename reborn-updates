@@ -46,11 +46,22 @@ Notice
 }
 
 Super(){
-paccache -ruk0
-paccache -r --keep 1
+paccache -ruk0 
+paccache -r --keep 1 >/tmp/freed.txt
 pacman -Scc --noconfirm
 journalctl --vacuum-time=1d && sync
-Notice
+Notice2
+
+}
+Notice2()
+{
+
+GREP=$(grep "GiB" /tmp/freed.txt | awk '{print $9}')
+GREP2=$(grep "no" /tmp/freed.txt | awk '{print $2}')
+yad --center --width=250 --height=10 --skip-taskbar --undecorated --no-buttons --form --timeout="1" --text-align=center --title="Reborn Maintenance" \
+--text="DONE! You just saved $GREP $GREP2 GB of space." \
+
+rm /tmp/freed.txt
 
 }
 
@@ -189,7 +200,7 @@ rm /tmp/option.txt
 
 }
 
-export -f Adding Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After Removing Removed Super BIOS BIOS2
+export -f Adding Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Notice2 Grub Downgrading After Removing Removed Super BIOS BIOS2
 
 
 yad --plug=23456 --tabnum=1 --form --center --text-align=center \
