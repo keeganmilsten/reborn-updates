@@ -157,17 +157,49 @@ rm /tmp/packaging2.txt
 
 }
 
-export -f Adding Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After Removing Removed Super
+BIOS()
+{
+
+ lsblk | grep disk | awk '{print $1}' >/tmp/bios.txt
+LINES=$(cat /tmp/bios.txt | wc -l)
+echo $LINES
+mapfile -t <<< "$(lsblk | grep disk | awk '{print $1}')"
+echo ${var[1]}
+echo ${var[2]}
+echo ${var[3]}
+echo ${var[4]}
+echo ${var[5]}
+SD1=$(sed '1q;d' /tmp/bios.txt)
+SD2=$(sed '2q;d' /tmp/bios.txt)
+SD3=$(sed '3q;d' /tmp/bios.txt)
+SD4=$(sed '4q;d' /tmp/bios.txt)
+yad --form --separator='\n' --quoted-output \
+    --field="Select Disk::cb" "^$SD1!$SD2!$SD3!$SD4!" >/tmp/option.txt \
+BIOS2
+
+}
+
+BIOS2()
+{
+
+BIOS_FILE=$(sed '1q;d' /tmp/option.txt)
+xterm -e grub-install /dev/$BIOS_FILE
+rm /tmp/bios.txt
+rm /tmp/option.txt
+
+}
+
+export -f Adding Unnecessary Update Journal Cache Clean Save Recover StartHere Next Notice Grub Downgrading After Removing Removed Super BIOS BIOS2
 
 
 yad --plug=23456 --tabnum=1 --form --center --text-align=center \
 --text="The following new Desktop configurations are available for install:" \
---field='Pantheon!!'"Pantheon is the desktop environment that Elementary OS runs on. While true Pantheon is too unstable for Reborn OS to offer, we have tried to offer the next best thing. By selecting Pantheon, you will get Elementary OS's good looks on a highly customized desktop running Cinnamon underneath. Through this, you will be able to run the majority of Elementary OS's applications and experience their stunning style and theming - all in a stable system.:fbtn" "xterm -e sudo pacman elementary-cosmic-reborn elementary-theme --noconfirm" \
---field='Cinnamon customized like Windows!!'"While I am sure you have all heard of Windows, this option does NOT truly offer you straight up Windows. This is Linux after all, not Microsoft. However, what this option DOES allow you to experience, is a Windows-like desktop running Cinnamon underneath, made to look and act like the Windows 10 you are already familiar with. Made with Linux newbies specifically in mind, this option should hopefully ensure you have an easy, hassle free transition to Linux.:fbtn" "xterm -e sudo pacman -S cinnamon-cosmic-reborn windows-theme --noconfirm" &
+--field='Apricity!!'"Apricity OS is a now discontinued Linux distro in the Arch Linux family that simply  offered a highly customized GNOME dekstop experience that combined beauty with funcionality. With this option, the Apricity look and feel is finally revivied! Experience it now on Reborn OS.:fbtn" "xterm -e sudo pacman gnome-cosmic-reborn apricity-theme --noconfirm" \
+--field='Better Broadcom Support!!'"Reborn OS finally offers a special optino for Broadcom users to ensure they have a better experience on Reborn. If this sounds like you, then please click here:fbtn" "xterm -e sudo pacman -S broadcom-wl --noconfirm" &
 
 yad --plug=23456 --tabnum=2 --form --center --text-align=center \
---text="Please consider updating your Reborn mirrorlist on your system (THIS MUST BE DONE BEFORE ADDING OTHER DESKTOPS):" \
---field="Use Mettke's Server For Reborn'!!""We are no longer updating our Github mirror for our repository due to its file size limits. To take advantage of updated packages for Reborn, please click this button.:fbtn" 'xterm -e "Adding"' &
+--text="Nothing to see here! Everything is good to go." \
+--field="Join us on the forum to celebrate our newest release!!""Open your web browser to our forum and celebrate with us.:fbtn" "xdg-open https://rebornos.freeforums.net/thread/455/new-reborn-iso-19-18/" &
 
 yad --plug=23456 --tabnum=3 --form --title="System Maintenance" --center --text-align=center --columns=2 \
 --text="A few simple commands to keep Reborn working flawlessly and your system clean" \
@@ -183,9 +215,9 @@ yad --plug=23456 --tabnum=4 --form --title="System Repair" --center --text-align
 --field="Save / Recover Programs:fbtn" '@bash -c "StartHere"' \
 --field="Rebuild Grub:fbtn" 'xterm -e "Grub"' \
 --field="Reinstall Grub (EFI):fbtn" "xterm -e grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Reborn-Grub" \
+--field="Reinstall Grub (BIOS):fbtn" '@bash -c "BIOS"' \
 --field="Downgrade:fbtn" '@bash -c "Downgrading"' \
---field="Remove Package (Leaving Dependencies):fbtn" '@bash -c "Removing"' \
---field="Ask Actual Humans on the Forum:fbtn" "@bash -c xdg-open https://rebornos.freeforums.net" &
+--field="Remove Package (Leaving Dependencies):fbtn" '@bash -c "Removing"'  &
 
-yad --notebook --center --key=23456 --tab="New Applications" --tab="Repositories" --tab="Maintenance" --tab="Repair" --button=gtk-quit:1 \
+yad --notebook --center --key=23456 --tab="New Features" --tab="Repositories" --tab="Maintenance" --tab="Repair" --button=gtk-quit:1 \
 --title="Reborn Improvements" \
